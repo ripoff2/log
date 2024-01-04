@@ -42,7 +42,7 @@ type Styles struct {
 // DefaultStyles returns the default styles.
 func DefaultStyles() *Styles {
 	return &Styles{
-		Timestamp: lipgloss.NewStyle(),
+		Timestamp: lipgloss.NewStyle().Foreground(lipgloss.Color("238")),
 		Caller:    lipgloss.NewStyle().Faint(true),
 		Prefix:    lipgloss.NewStyle().Bold(true).Faint(true),
 		Message:   lipgloss.NewStyle(),
