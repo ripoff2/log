@@ -409,3 +409,11 @@ func (l *Logger) Fatalf(format string, args ...interface{}) {
 func (l *Logger) Printf(format string, args ...interface{}) {
 	l.Log(noLevel, fmt.Sprintf(format, args...))
 }
+
+func (l *Logger) Success(msg interface{}, keyvals ...interface{}) {
+	l.Log(SuccessLevel, msg, keyvals...)
+}
+
+func (l *Logger) Successf(format string, args ...interface{}) {
+	l.Log(SuccessLevel, fmt.Sprintf(format, args...))
+}
