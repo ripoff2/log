@@ -75,6 +75,11 @@ func DefaultStyles() *Styles {
 				Bold(true).
 				MaxWidth(4).
 				Foreground(lipgloss.Color("134")),
+			SuccessLevel: lipgloss.NewStyle().
+				SetString(strings.ToUpper(SuccessLevel.String())).
+				Bold(true).
+				MaxWidth(4).
+				Foreground(lipgloss.Color("82")),
 		},
 		Keys:   map[string]lipgloss.Style{},
 		Values: map[string]lipgloss.Style{},

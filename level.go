@@ -21,6 +21,8 @@ const (
 	ErrorLevel Level = 8
 	// FatalLevel is the fatal level.
 	FatalLevel Level = 12
+	// SucessLevel is the sucess level.
+	SuccessLevel Level = 16
 	// noLevel is used with log.Print.
 	noLevel Level = math.MaxInt32
 )
@@ -38,6 +40,8 @@ func (l Level) String() string {
 		return "error"
 	case FatalLevel:
 		return "fatal"
+	case SuccessLevel:
+		return "success"
 	default:
 		return ""
 	}
@@ -59,6 +63,8 @@ func ParseLevel(level string) (Level, error) {
 		return ErrorLevel, nil
 	case FatalLevel.String():
 		return FatalLevel, nil
+	case SuccessLevel.String():
+		return SuccessLevel, nil
 	default:
 		return 0, fmt.Errorf("%w: %q", ErrInvalidLevel, level)
 	}

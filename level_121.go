@@ -12,4 +12,5 @@ var fromSlogLevel = map[slog.Level]Level{
 	slog.LevelWarn:  WarnLevel,
 	slog.LevelError: ErrorLevel,
 	slog.Level(12):  FatalLevel,
+	slog.Level(16):  SuccessLevel,
 }
