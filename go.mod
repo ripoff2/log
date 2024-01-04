@@ -1,4 +1,4 @@
-module github.com/charmbracelet/log
+module github.com/ripoff2/log
 
 go 1.19
 
