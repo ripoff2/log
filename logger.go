@@ -15,10 +15,8 @@ import (
 	"github.com/muesli/termenv"
 )
 
-var (
-	// ErrMissingValue is returned when a key is missing a value.
-	ErrMissingValue = fmt.Errorf("missing value")
-)
+// ErrMissingValue is returned when a key is missing a value.
+var ErrMissingValue = fmt.Errorf("missing value")
 
 // LoggerOption is an option for a logger.
 type LoggerOption = func(*Logger)
@@ -32,7 +30,7 @@ type Logger struct {
 
 	isDiscard uint32
 
-	level           int32
+	level           int64
 	prefix          string
 	timeFunc        TimeFunction
 	timeFormat      string
@@ -61,7 +59,7 @@ func (l *Logger) Log(level Level, msg interface{}, keyvals ...interface{}) {
 	}
 
 	// check if the level is allowed
-	if atomic.LoadInt32(&l.level) > int32(level) {
+	if atomic.LoadInt64(&l.level) > int64(level) {
 		return
 	}
 
@@ -80,7 +78,7 @@ func (l *Logger) Log(level Level, msg interface{}, keyvals ...interface{}) {
 			}
 		}
 	}
-	l.handle(level, l.timeFunc(), []runtime.Frame{frame}, msg, keyvals...)
+	l.handle(level, l.timeFunc(time.Now()), []runtime.Frame{frame}, msg, keyvals...)
 }
 
 func (l *Logger) handle(level Level, ts time.Time, frames []runtime.Frame, msg interface{}, keyvals ...interface{}) {
@@ -236,7 +234,7 @@ func (l *Logger) GetLevel() Level {
 func (l *Logger) SetLevel(level Level) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	atomic.StoreInt32(&l.level, int32(level))
+	atomic.StoreInt64(&l.level, int64(level))
 }
 
 // GetPrefix returns the current prefix.
@@ -336,7 +334,8 @@ func (l *Logger) With(keyvals ...interface{}) *Logger {
 	sl.b = bytes.Buffer{}
 	sl.mu = &sync.RWMutex{}
 	sl.helpers = &sync.Map{}
-	sl.fields = append(l.fields, keyvals...)
+	sl.fields = append(make([]interface{}, 0, len(l.fields)+len(keyvals)), l.fields...)
+	sl.fields = append(sl.fields, keyvals...)
 	sl.styles = &st
 	return &sl
 }

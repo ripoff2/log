@@ -8,7 +8,7 @@ import (
 )
 
 // Level is a logging level.
-type Level int32
+type Level int
 
 const (
 	// DebugLevel is the debug level.
@@ -24,7 +24,7 @@ const (
 	// SucessLevel is the sucess level.
 	SuccessLevel Level = 16
 	// noLevel is used with log.Print.
-	noLevel Level = math.MaxInt32
+	noLevel Level = math.MaxInt
 )
 
 // String returns the string representation of the level.
